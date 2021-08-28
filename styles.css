@@ -2,3 +2,9 @@ body{
     background-color: black;
     color:white;
 }
+.display-none{
+    display: none;
+}
+.display-block{
+    display: block;
+}
