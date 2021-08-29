@@ -286,8 +286,8 @@ const app = () => {
     //generate 'div','h1','img','p','a' elements
     const generateHTMLElements = (elements) => {
         return {
-            div1: createElement('div'),
-            div2: createElement('div'),
+            containerDiv: createElement('div'),
+            imageDiv: createElement('div'),
             h2: createElement('h1'),
             img: createElement('img'),
             p: createElement('p'),
@@ -319,26 +319,26 @@ const app = () => {
         const view = query('#view');
         const button = query('#load-more');
         articles.map(({ title, description, url, urlToImage, publishedAt }) => {
-            const { div1, div2, h2, img, p, span, a, button } = generateHTMLElements();
+            const { containerDiv, imageDiv, h2, img, p, span, a, button } = generateHTMLElements();
             h2.textContent = title;
             p.textContent = description;
-            span.textContent = publishedAt;
+            span.textContent = publishedAt.slice(0,10);
             button.textContent = "Share";
             button.classList.add('share');
             button.addEventListener('click', shareNewsLink);
-            img.src = urlToImage?? "";
+            img.src = urlToImage;
             img.alt = title;
             img.width = 300;
-            div2.appendChild(img);
+            imageDiv.appendChild(img);
             a.href = url;
             a.target = "_blank";
             a.appendChild(h2);
-            div1.appendChild(div2);
-            div1.appendChild(a);
-            div1.appendChild(p);
-            div1.appendChild(span);
-            div1.appendChild(button);
-            view.appendChild(div1);
+            containerDiv.appendChild(imageDiv);
+            containerDiv.appendChild(a);
+            containerDiv.appendChild(p);
+            containerDiv.appendChild(span);
+            containerDiv.appendChild(button);
+            view.appendChild(containerDiv);
         });
         SETTINGS.LOADING = false;
         button.classList.add("display-block")
