@@ -54,32 +54,6 @@ const app = () => {
         },
         {
             "source": {
-                "id": null,
-                "name": "WDSU New Orleans"
-            },
-            "author": "WDSU Digital Team",
-            "title": "Hurricane Ida prep: Over 1,400 evacuated from jails in Orleans and Plaquemines - WDSU New Orleans",
-            "description": "Evacuations of 835 inmates out of Orleans Parish and more than 600 in Plaquemines Parish were completed Saturday.",
-            "url": "https://www.wdsu.com/article/hurricane-ida-prep-over-1400-evacuated-from-jails-in-orleans-and-plaquemines/37422758",
-            "urlToImage": "https://kubrick.htvapps.com/htv-prod/ibmig/cms/image/wdsu/38484976-jail-generic.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*",
-            "publishedAt": "2021-08-29T01:25:00Z",
-            "content": "NEW ORLEANS —More than 1,400 people jailed in Orleans and Plaquemines parishes have been evacuated to state prison facilities in preparation for Hurricane Ida, authorities said Saturday. \r\nOrleans Pa… [+1605 chars]"
-        },
-        {
-            "source": {
-                "id": null,
-                "name": "KELOLAND.com"
-            },
-            "author": "Jazzmine Jackson, Karen Sherman",
-            "title": "Flooding follows heavy rain in Saturday night storms - KELOLAND.com",
-            "description": "Another round of severe thunderstorms is making its way across southeastern KELOLAND for the second time on Saturday.",
-            "url": "https://www.keloland.com/news/local-news/second-round-of-severe-weather-moving-into-southeastern-keloland/",
-            "urlToImage": "https://www.keloland.com/wp-content/uploads/sites/103/2021/08/ezgif.com-gif-maker.gif?w=1280",
-            "publishedAt": "2021-08-29T01:13:01Z",
-            "content": "10:00 p.m.\r\nSIOUX FALLS, S.D. (KELO) — Nearly three inches of rain in just a few hours has led to street flooding in parts of Sioux Falls. \r\nSome areas of southwest Minnesota have seen rainfall rates… [+2297 chars]"
-        },
-        {
-            "source": {
                 "id": "google-news",
                 "name": "Google News"
             },
@@ -263,7 +237,7 @@ const app = () => {
         console.log("Starting NewsSpace...");
         const URL_ENDPOINT = SETTINGS.urlEndpoint()
         // const articles = fetchNewsArticles(URL_ENDPOINT);
-        // getArticlesArray(articles); //test this out!!!!!!
+        // getArticlesArray(articles);
         loadNewsArticles(articles)
         initializeEventListeners();
     };
@@ -273,28 +247,14 @@ const app = () => {
         return document.createElement(element);
     };
 
-    //query element
+    //query element by id, class, or tag and returns it
     const query = (element) => {
         return document.querySelector(element);
     };
 
-    //query all elements
+    //query all elements with class or tag and returns it 
     const queryAll = (element) => {
         return document.querySelectorAll(element);
-    };
-
-    //generate 'div','h1','img','p','a' elements
-    const generateHTMLElements = (elements) => {
-        return {
-            containerDiv: createElement('div'),
-            imageDiv: createElement('div'),
-            h2: createElement('h1'),
-            img: createElement('img'),
-            p: createElement('p'),
-            a: createElement('a'),
-            span: createElement('span'),
-            button: createElement('button')
-        };
     };
 
     //fetch news articles from the API
@@ -314,30 +274,60 @@ const app = () => {
         });
     }
 
+     //generates 'div','h1','img','p','a' elements
+     const generateHTMLElements = (elements) => {
+        return {
+            containerDiv: createElement('div'),
+            imageDiv: createElement('div'),
+            textDiv:createElement('div'),
+            titleDiv:createElement('div'),
+            shareDiv:createElement('div'),
+            h2: createElement('h1'),
+            urlImg: createElement('img'),
+            shareImg:createElement('img'),
+            p: createElement('p'),
+            a: createElement('a'),
+            span: createElement('span'),
+        };
+    };
+
     //display articles on the page
     const loadNewsArticles = (articles) => {
-        const view = query('#view');
+        const view = query('.card-container');
         const button = query('#load-more');
-        articles.map(({ title, description, url, urlToImage, publishedAt }) => {
-            const { containerDiv, imageDiv, h2, img, p, span, a, button } = generateHTMLElements();
+        articles
+        .filter(article=>article.urlToImage !== null)
+        .map(({ title, description, url, urlToImage, source }) => {
+            const { containerDiv, imageDiv , titleDiv,textDiv, shareDiv, h2, urlImg,shareImg, p, span, a } = generateHTMLElements();
             h2.textContent = title;
             p.textContent = description;
-            span.textContent = publishedAt.slice(0,10);
-            button.textContent = "Share";
-            button.classList.add('share');
-            button.addEventListener('click', shareNewsLink);
-            img.src = urlToImage;
-            img.alt = title;
-            img.width = 300;
-            imageDiv.appendChild(img);
+            span.textContent = source.name;
+            urlImg.src = urlToImage;
+            urlImg.alt = title;
             a.href = url;
             a.target = "_blank";
+            shareImg.src="./assets/img/share.png";
+            shareImg.addEventListener('click', shareNewsLink);
+            shareImg.classList.add('share')
+            urlImg.classList.add('img');
+            span.classList.add('card-span');
+            imageDiv.classList.add('card-image');
+            titleDiv.classList.add('card-title');
+            shareDiv.classList.add('flex');
+            p.classList.add('card-text');
+            containerDiv.classList.add('card');
+            textDiv.classList.add('flex-col')
             a.appendChild(h2);
+            textDiv.appendChild(shareDiv);
+            textDiv.appendChild(titleDiv);
+            titleDiv.appendChild(a);
+            imageDiv.appendChild(urlImg);
+            shareDiv.appendChild(span);
+            shareDiv.appendChild(shareImg);
             containerDiv.appendChild(imageDiv);
-            containerDiv.appendChild(a);
+            containerDiv.appendChild(textDiv);
             containerDiv.appendChild(p);
-            containerDiv.appendChild(span);
-            containerDiv.appendChild(button);
+            
             view.appendChild(containerDiv);
         });
         SETTINGS.LOADING = false;
