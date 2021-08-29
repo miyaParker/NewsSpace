@@ -142,3 +142,22 @@ input[type="search"] {
   justify-content: space-between;
   padding-top: 0;
 }
+
+.social-media-layout {
+    background-color: #fff;
+    box-shadow: 2px 4px 26px rgba(0, 0, 0, 0.07);
+    width: 100px;
+    height: 270px;
+    list-style-type: none;
+    border-radius: 4px;
+}
+
+.social-media-layout li {
+    align-items: center;
+    align-content: center;
+}
+
+.social-media-layout li a {
+    text-decoration: none;
+    color: #373737c9;
+}
