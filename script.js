@@ -3,19 +3,6 @@ const app = () => {
         {
             "source": {
                 "id": null,
-                "name": "The Guardian"
-            },
-            "author": "Kari Paul",
-            "title": "‘People wanted to believe’: reporter who exposed Theranos on Elizabeth Holmes’ trial - The Guardian",
-            "description": "As blood testing startup founder’s fraud trial looms, John Carreyrou says hero worship is still a problem in Silicon Valley",
-            "url": "https://amp.theguardian.com/technology/2021/aug/28/elizabeth-holmes-theranos-trial-john-carreyrou",
-            "urlToImage": null,
-            "publishedAt": "2021-08-29T05:00:00Z",
-            "content": "TheranosAs blood testing startup founders fraud trial looms, John Carreyrou says hero worship is still a problem in Silicon Valley\r\nSun 29 Aug 2021 01.00 EDT\r\nThe unraveling of Theranos began with a … [+10270 chars]"
-        },
-        {
-            "source": {
-                "id": null,
                 "name": "MMA Fighting"
             },
             "author": "MMA Fighting Newswire",
@@ -299,7 +286,8 @@ const app = () => {
     //generate 'div','h1','img','p','a' elements
     const generateHTMLElements = (elements) => {
         return {
-            div: createElement('div'),
+            div1: createElement('div'),
+            div2: createElement('div'),
             h2: createElement('h1'),
             img: createElement('img'),
             p: createElement('p'),
@@ -328,28 +316,29 @@ const app = () => {
 
     //display articles on the page
     const loadNewsArticles = (articles) => {
-        const main = query('#main');
+        const view = query('#view');
         const button = query('#load-more');
         articles.map(({ title, description, url, urlToImage, publishedAt }) => {
-            const { div, h2, img, p, span, a, button } = generateHTMLElements();
+            const { div1, div2, h2, img, p, span, a, button } = generateHTMLElements();
             h2.textContent = title;
             p.textContent = description;
             span.textContent = publishedAt;
             button.textContent = "Share";
             button.classList.add('share');
             button.addEventListener('click', shareNewsLink);
-            img.src = urlToImage;
+            img.src = urlToImage?? "";
             img.alt = title;
             img.width = 300;
+            div2.appendChild(img);
             a.href = url;
             a.target = "_blank";
             a.appendChild(h2);
-            div.appendChild(a);
-            div.appendChild(img);
-            div.appendChild(p);
-            div.appendChild(span);
-            div.appendChild(button);
-            main.appendChild(div);
+            div1.appendChild(div2);
+            div1.appendChild(a);
+            div1.appendChild(p);
+            div1.appendChild(span);
+            div1.appendChild(button);
+            view.appendChild(div1);
         });
         SETTINGS.LOADING = false;
         button.classList.add("display-block")
