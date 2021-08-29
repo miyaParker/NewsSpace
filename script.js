@@ -383,17 +383,15 @@ const app = () => {
     }
 
     const shareNewsLink = async (e) => {
-        alert(navigator.canShare)
         if(navigator.share){
             const parentNode = e.target.parentNode;
-            // const a = parentNode.children[0];
-            // const title = a.children[0].textContent;
-            const description = parentNode.children[2].textContent;
+            const a = parentNode.children[0];
+            const title = a.children[0].textContent;
+            const text = "Hi! Check out this interesting news article from NewsSpace."
             const SHARE_DATA = {
-                message: "Hi! Check out this interesting news article from NewsSpace.",
-                // title,
-                // link: a.href,
-                description,
+                title,
+                text,
+                url: a.href,
             }
             try{
                 await navigator.share(SHARE_DATA)
