@@ -1,5 +1,5 @@
 const app = () => {
-    const articles =[
+    const articles = [
         {
             "source": {
                 "id": null,
@@ -157,7 +157,7 @@ const app = () => {
             "content": "This could be the dumbest, most ridiculous woke move ever ... Sarah Paulson is getting dragged for wearing a fat suit portraying Linda Tripp in \"Impeachment: American Crime Story,\" because some criti… [+2210 chars]"
         },
         {
-                "source": {
+            "source": {
                 "id": "fox-news",
                 "name": "Fox News"
             },
@@ -305,6 +305,7 @@ const app = () => {
             p: createElement('p'),
             a: createElement('a'),
             span: createElement('span'),
+            button: createElement('button')
         };
     };
 
@@ -330,10 +331,13 @@ const app = () => {
         const main = query('#main');
         const button = query('#load-more');
         articles.map(({ title, description, url, urlToImage, publishedAt }) => {
-            const { div, h2, img, p, span, a } = generateHTMLElements();
+            const { div, h2, img, p, span, a, button } = generateHTMLElements();
             h2.textContent = title;
             p.textContent = description;
             span.textContent = publishedAt;
+            button.textContent = "Share";
+            button.classList.add('share');
+            button.addEventListener('click', shareNewsLink);
             img.src = urlToImage;
             img.alt = title;
             img.width = 300;
@@ -344,6 +348,7 @@ const app = () => {
             div.appendChild(img);
             div.appendChild(p);
             div.appendChild(span);
+            div.appendChild(button);
             main.appendChild(div);
         });
         SETTINGS.LOADING = false;
@@ -383,34 +388,36 @@ const app = () => {
     }
 
     const shareNewsLink = async (e) => {
-        if(navigator.share){
+        if (navigator.share) {
+            console.log(e.target)
             const parentNode = e.target.parentNode;
             const a = parentNode.children[0];
-            const title = a.children[0].textContent;
+            const title = a.textContent;
             const text = "Hi! Check out this interesting news article from NewsSpace."
             const SHARE_DATA = {
                 title,
                 text,
                 url: a.href,
             }
-            try{
+            console.log(SHARE_DATA);
+            try {
                 await navigator.share(SHARE_DATA)
-            } 
-            catch(err){
-                alert("error sharing link"+err);
+            }
+            catch (err) {
+                alert("error sharing link " + err);
             }
         }
-        else{
-            alert("Your browser does not support link sharing.")}
+        else {
+            alert("Your browser does not support link sharing.")
+        }
     }
 
     //initialize event listeners
     const initializeEventListeners = () => {
         console.log("Initializing event listeners...");
-        query('#load-more').addEventListener('click', loadMoreArticles);
+        // query('#load-more').addEventListener('click', loadMoreArticles);
         // query('#list').addEventListener('click', newsArticlesByCategory);
         // query('#search').addEventListener('click', queryNewsArticles);
-        query('#share').addEventListener('click', shareNewsLink);
     }
     return init;
 };
