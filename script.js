@@ -8,7 +8,7 @@ const app = () => {
     SEARCH_QUERY: "general",
     CATEGORY: "general",
     urlEndpoint() {
-      return `https://newsapi.org/v2/everything?q=${this.SEARCH_QUERY}&page=${this.PAGE}?&apiKey=${this.API_KEY}`;
+      return `https://newsapi.org/v2/everything?q=${this.SEARCH_QUERY}&page=${this.PAGE}&apiKey=${this.API_KEY}`;
     },
       categoryEndpoint(){
         return `https://newsapi.org/v2/top-headlines?country=ng&category=${this.CATEGORY}&apiKey=4fae98f363504cbbaf34a9a7040c8e96`
@@ -111,10 +111,10 @@ const app = () => {
       shareDiv: createElement("div"),
       h3: createElement("h"),
       urlImg: createElement("img"),
-      shareImg: createElement("img"),
       p: createElement("p"),
       a: createElement("a"),
-      span: createElement("span"),
+      sourceSpan: createElement("span"),
+      dateSpan: createElement("span"),
     };
   };
 
@@ -124,7 +124,7 @@ const app = () => {
     const button = query("#load-more");
     articles
       .filter((article) => article.urlToImage !== null)
-      .map(({ title, description, url, urlToImage, source }) => {
+      .map(({ title, description, url, urlToImage, source, publishedAt }) => {
         const {
           containerDiv,
           imageDiv,
@@ -133,23 +133,21 @@ const app = () => {
           shareDiv,
           h3,
           urlImg,
-          shareImg,
           p,
-          span,
+          sourceSpan,
+          dateSpan,
           a,
         } = generateHTMLElements();
         h3.textContent = title;
         p.textContent = description;
-        span.textContent = source.name;
+        sourceSpan.textContent = source.name;
+        dateSpan.textContent = publishedAt.slice(0,10);
         urlImg.src = urlToImage;
         urlImg.alt = title;
         a.href = url;
         a.target = "_blank";
-        shareImg.src = "./assets/img/share.png";
-        shareImg.addEventListener("click", shareNewsLink);
-        shareImg.classList.add("share");
         urlImg.classList.add("img");
-        span.classList.add("card-span");
+        sourceSpan.classList.add("card-span");
         imageDiv.classList.add("card-image");
         titleDiv.classList.add("card-title");
         shareDiv.classList.add("flex");
@@ -161,8 +159,8 @@ const app = () => {
         textDiv.appendChild(titleDiv);
         titleDiv.appendChild(a);
         imageDiv.appendChild(urlImg);
-        shareDiv.appendChild(span);
-        shareDiv.appendChild(shareImg);
+        shareDiv.appendChild(sourceSpan);
+        shareDiv.appendChild(dateSpan);
         containerDiv.appendChild(imageDiv);
         containerDiv.appendChild(textDiv);
         containerDiv.appendChild(p);
@@ -179,7 +177,9 @@ const app = () => {
     SETTINGS.PAGE++;
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
     const data = await fetchNewsArticles(URL_ENDPOINT);
-    console.log(URL_ENDPOINT);
+    console.log(URL_ENDPOINT, data.articles);
+     //load only new data
+    loadNewsArticles(data.articles);
     SETTINGS.NEWS_ARTICLES.push(...data.articles);
     updateOfflineData([
       {
@@ -191,8 +191,6 @@ const app = () => {
         value: SETTINGS.PAGE,
       },
     ]);
-    //load only new data
-    loadNewsArticles(data.articles);
     SETTINGS.LOADING = false;
   };
 
@@ -251,32 +249,6 @@ const app = () => {
         value: SETTINGS.SEARCH_QUERY,
       },
     ]);
-  };
-
-  const shareNewsLink = async (e) => {
-    if (navigator.share) {
-      console.log(e.target);
-      const parentNode = e.target.parentNode;
-      const a = parentNode.children[0];
-      const title = a.textContent;
-      const text =
-        "Hi! Check out this interesting news article from NewsSpace.";
-      const SHARE_DATA = {
-        title,
-        text,
-        url: a.href,
-      };
-      console.log(SHARE_DATA);
-      try {
-        await navigator.share(SHARE_DATA);
-      } catch (err) {
-        if ("AbortError" in err) {
-          return;
-        }
-      }
-    } else {
-      alert("Your browser does not support link sharing.");
-    }
   };
 
   //initialize event listeners
