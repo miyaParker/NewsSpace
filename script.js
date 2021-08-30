@@ -33,11 +33,11 @@ const app = () => {
     if (window.localStorage) {
       const articles = fetchOfflineData("articles");
       const page = fetchOfflineData("page");
-      SETTINGS.PAGE = page;
+      if(page) SETTINGS.PAGE = page;
       if (articles) {
         loadNewsArticles(articles);
         return;
-      }
+      };
       const URL_ENDPOINT = SETTINGS.urlEndpoint();
       const data = await fetchNewsArticles(URL_ENDPOINT);
       SETTINGS.NEWS_ARTICLES = data.articles;
