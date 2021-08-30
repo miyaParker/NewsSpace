@@ -2,7 +2,6 @@
 body {
   background-color: #ffffff;
   margin: 0;
-  
 }
 * {
   font-family: "Inconsolata";
@@ -23,7 +22,7 @@ span {
   padding: 0 4rem;
   margin-right: 30px;
 }
-.fixed{
+.fixed {
   position: fixed;
 }
 .nav {
@@ -40,13 +39,13 @@ span {
 }
 
 .nav-list a:hover {
-  color: #BF557B;
+  color: #bf557b;
   font-size: medium;
   background-color: #e88cfa;
 }
 
 .nav li a:active {
-  color: #BF557B;
+  color: #bf557b;
   font-weight: bold;
   font-size: medium;
   background-color: #25082b;
@@ -60,7 +59,7 @@ input[type="search"] {
   font-size: 15px;
   outline-color: #3b1342;
 }
-.search-div{
+.search-div {
   align-self: center;
 }
 
@@ -77,28 +76,27 @@ input[type="search"] {
   border-radius: 1rem;
 }
 
-
-.card:hover{
- 
-  background-color: #bf557c0c;
+.card:hover {
+  background-color: #bf557c07;
   transition: 0.1s;
   border-radius: 10px;
   border-color: black;
-
 }
-
-.card:active{
+li:hover{
+  transition: 0.1s;
+  color: #BF557B;
+}
+.card:active {
   background-color: rgb(238, 226, 226);
 }
-
 
 .card a {
   color: black;
   cursor: pointer;
-  text-decoration-color: #BF557B;
+  text-decoration-color: #bf557b;
 }
-.card a:hover{
-  color: #BF557B;
+.card a:hover {
+  color: #bf557b;
   text-decoration-color: black;
 }
 .card-image {
@@ -111,7 +109,7 @@ input[type="search"] {
   object-fit: cover;
   cursor: pointer;
 }
-.img:hover{
+.img:hover {
   transform: scale(1.03);
   transition: 1s;
 }
@@ -243,13 +241,13 @@ input[type="search"] {
 #search {
   cursor: pointer;
   position: relative;
-  top: .5rem;
+  top: 0.5rem;
   left: 2.5rem;
   width: 25px;
 }
 
 /* media queries */
-@media all and (min-width: 1024px) and (max-width: 1280px) { 
+@media all and (min-width: 1024px) and (max-width: 1280px) {
   .card-container {
     grid-template-columns: repeat(4, 25%);
     grid-gap: 20px;
@@ -259,8 +257,8 @@ input[type="search"] {
     padding: 0 4rem;
   }
 }
- 
-@media all and (min-width: 768px) and (max-width: 1024px) { 
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
   .card-container {
     grid-template-columns: repeat(3, 33%);
     grid-gap: 20px;
@@ -269,7 +267,7 @@ input[type="search"] {
     padding: 0 2rem;
   }
 }
- 
+
 @media all and (min-width: 480px) and (max-width: 768px) {
   .card-container {
     grid-template-columns: repeat(2, 50%);
@@ -279,10 +277,10 @@ input[type="search"] {
     padding: 2rem;
   }
 }
- 
-@media all and (max-width: 480px) { 
+
+@media all and (max-width: 480px) {
   .card-container {
-    grid-template-columns: repeat(1,1fr);
+    grid-template-columns: repeat(1, 1fr);
     grid-gap: 10px;
   }
   .view {
