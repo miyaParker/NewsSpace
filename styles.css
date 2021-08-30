@@ -21,36 +21,17 @@ span {
 .view {
   padding: 0 4rem;
 }
-
-.nav-bar {
+.nav {
   display: flex;
-  font-size: 12px;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
-}
-
-.nav-logo {
-  height: 60px;
-}
-
-.nav-logo img {
-  height: 100%;
+  padding: 0 3rem;
+  justify-content: space-between;
+  background-color: #3b1342;
 }
 
 .nav-list {
   display: flex;
   list-style-type: none;
-}
-
-.nav-list li {
-  color: #fff;
-  margin-right: 20px;
-}
-
-.nav-list li {
-  text-decoration: none;
-  color: #fff;
 }
 
 input[type="search"] {
@@ -59,8 +40,11 @@ input[type="search"] {
   padding-left: 2.4rem;
   color: #3b13427e;
   font-size: 15px;
+  outline-color: #3b1342;
 }
-
+.search-div{
+  align-self: center;
+}
 .card-container {
   padding: 0 2rem;
   display: grid;
@@ -122,7 +106,11 @@ input[type="search"] {
 }
 #load-more {
   margin: 2.5rem auto;
+  outline-color: #3b1342;
   color: #ffffff;
+}
+.w-50 {
+  width: 50%;
 }
 .w-70 {
   width: 70%;
@@ -139,16 +127,6 @@ input[type="search"] {
   padding: 0 20px;
   padding-top: 10px;
   justify-content: space-between;
-}
-.nav {
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  padding-top: 10px;
-  justify-content: space-between;
-  padding: 0 2rem;
-  background-color: #3b1342;
-  margin-bottom: 0;
 }
 .flex-col {
   display: flex;
@@ -180,7 +158,7 @@ input[type="search"] {
   align-items: center;
   list-style-type: none;
   cursor: pointer;
-  padding: 10px 10px;
+  padding: 1rem 2rem;
   color: white;
 }
 
@@ -190,15 +168,6 @@ input[type="search"] {
 .logo {
   width: 100%;
   object-fit: cover;
-}
-.politics,
-.business,
-.entertainment,
-.health,
-.more {
-  text-decoration: none;
-  color: purple;
-  margin-left: -70px;
 }
 
 .search {
@@ -213,7 +182,7 @@ input[type="search"] {
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
-  height: 70vh;
+  height: 85vh;
 }
 
 .banner h1 {
@@ -223,11 +192,12 @@ input[type="search"] {
   text-align: center;
   margin: auto;
   font-size: 55px;
-  padding: 225px 0;
+  padding: 50vh 0;
 }
 #search {
   cursor: pointer;
   position: relative;
-  left: 2rem;
+  top: .5rem;
+  left: 2.5rem;
   width: 25px;
 }

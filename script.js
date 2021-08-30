@@ -1,20 +1,23 @@
 const app = () => {
   const SETTINGS = {
-    API_KEY: "4c6292ea668f4393b736943e01845af2",
+    // API_KEY: "4c6292ea668f4393b736943e01845af2",
+    API_KEY: "4fae98f363504cbbaf34a9a7040c8e96",
     PAGE: 1,
     NEWS_ARTICLES: [],
     LOADING: true,
     SEARCH_QUERY: "general",
     CATEGORY: "general",
     urlEndpoint() {
-      return `https://newsapi.org/v2/everything?q=${this.SEARCH_QUERY}&page=${this.PAGE}&apiKey=${this.API_KEY}`;
+      return `https://newsapi.org/v2/everything?q=${this.SEARCH_QUERY}&page=${this.PAGE}?&apiKey=${this.API_KEY}`;
     },
+      categoryEndpoint(){
+        return `https://newsapi.org/v2/top-headlines?country=ng&category=${this.CATEGORY}&apiKey=4fae98f363504cbbaf34a9a7040c8e96`
+      },
   };
 
   //set item to local storage
   const updateOfflineData = (itemList) => {
     itemList.map(({ key, value }) => {
-      localStorage.removeItem(key);
       localStorage.setItem(key, JSON.stringify(value));
     });
   };
@@ -22,23 +25,46 @@ const app = () => {
   //get item from localStorage
   const fetchOfflineData = (key) => {
     const data = localStorage.getItem(key);
-    return JSON.parse(data);
+    if (typeof data !== undefined) {
+      return JSON.parse(data);
+    } else return [];
+  };
+
+  //create Navlinks
+  const createNavLinks = () => {
+    const navlinks = [
+      "Business",
+      "Politics",
+      "Entertainment",
+      "Health",
+      "Science",
+      "Sports",
+      "Technology",
+    ];
+    const ul = query(".navlinks");
+    navlinks.map((navlink) => {
+      const li = createElement("li");
+      li.textContent = navlink;
+      li.addEventListener("click", newsArticlesByCategory);
+      ul.appendChild(li);
+    });
   };
 
   //initialize application settings
   const init = async () => {
     console.log("Starting NewsSpace...");
+    createNavLinks();
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
     initializeEventListeners();
-    // Check if browser support local storage
-    if (window.localStorage) {
-      const articles = fetchOfflineData("articles");
-      const page = fetchOfflineData("page");
-      if (page) SETTINGS.PAGE = page;
-      if (articles) {
-        loadNewsArticles(articles);
-        return;
-      }
+    //Check if browser support local storage
+    const articles = fetchOfflineData("articles");
+    const page = fetchOfflineData("page");
+    const searchQuery = fetchOfflineData("query");
+    if (page && searchQuery && typeof articles !== "undefined" & articles.length) {
+      SETTINGS.PAGE = page;
+      SETTINGS.PAGE = searchQuery;
+      loadNewsArticles(articles);
+    } else {
       const data = await fetchNewsArticles(URL_ENDPOINT);
       SETTINGS.NEWS_ARTICLES = data.articles;
       updateOfflineData([
@@ -49,6 +75,10 @@ const app = () => {
         {
           key: "page",
           value: SETTINGS.PAGE,
+        },
+        {
+          key: "query",
+          value: SETTINGS.SEARCH_QUERY,
         },
       ]);
       loadNewsArticles(SETTINGS.NEWS_ARTICLES);
@@ -168,11 +198,16 @@ const app = () => {
 
   //load news articles by category
   const newsArticlesByCategory = async (e) => {
-    SETTINGS.PAGE = 1;
-    SETTINGS.CATEGORY = e.target.value;
-    const URL_ENDPOINT = SETTINGS.urlEndpoint();
-    const articles = await fetchNewsArticles(URL_ENDPOINT);
-    SETTINGS.NEWS_ARTICLES = articles.data;
+    SETTINGS.CATEGORY = e.target.textContent;
+    const URL_ENDPOINT = SETTINGS.categoryEndpoint();
+    const data = await fetchNewsArticles(URL_ENDPOINT);
+    console.log(data)
+    const view = query(".card-container");
+    view.innerHTML = "";
+    SETTINGS.NEWS_ARTICLES = data.articles;
+    console.log(SETTINGS.NEWS_ARTICLES)
+    loadNewsArticles(SETTINGS.NEWS_ARTICLES);
+    SETTINGS.CATEGORY = "general";
     updateOfflineData([
       {
         key: "articles",
@@ -182,31 +217,25 @@ const app = () => {
         key: "page",
         value: SETTINGS.PAGE,
       },
+      {
+        key: "query",
+        value: "general",
+      },
     ]);
-    const view = query(".card-container");
-    view.innerHTML = "";
-    loadNewsArticles(SETTINGS.NEWS_ARTICLES);
   };
 
   //search news articles by user-defined query
   const queryNewsArticles = async (e) => {
-    updateOfflineData([
-      {
-        key: "articles",
-        value: [],
-      },
-      {
-        key: "page",
-        value: 0,
-      },
-    ]);
     SETTINGS.PAGE = 1;
-    SETTINGS.SEARCH_QUERY = e.target.nextElementSibling.value;;
+    const KEYWORD = e.target.nextElementSibling.value;
+    SETTINGS.SEARCH_QUERY = KEYWORD.length ? KEYWORD : "general";
+    query("#search-bar").value = "";
+    const view = query(".card-container");
+    view.innerHTML = "";
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
     const data = await fetchNewsArticles(URL_ENDPOINT);
     SETTINGS.NEWS_ARTICLES = data.articles;
-    const view = query(".card-container");
-    view.innerHTML = "";
+    //update local storage
     loadNewsArticles(SETTINGS.NEWS_ARTICLES);
     updateOfflineData([
       {
@@ -216,6 +245,10 @@ const app = () => {
       {
         key: "page",
         value: SETTINGS.PAGE,
+      },
+      {
+        key: "query",
+        value: SETTINGS.SEARCH_QUERY,
       },
     ]);
   };
@@ -237,7 +270,9 @@ const app = () => {
       try {
         await navigator.share(SHARE_DATA);
       } catch (err) {
-        alert("error sharing link " + err);
+        if ("AbortError" in err) {
+          return;
+        }
       }
     } else {
       alert("Your browser does not support link sharing.");
@@ -248,7 +283,6 @@ const app = () => {
   const initializeEventListeners = () => {
     console.log("Initializing event listeners...");
     query("#load-more").addEventListener("click", loadMoreArticles);
-    query(".link").addEventListener("click", newsArticlesByCategory);
     query("#search").addEventListener("click", queryNewsArticles);
   };
   return init;
