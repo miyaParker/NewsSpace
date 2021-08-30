@@ -21,6 +21,9 @@ span {
 .view {
   padding: 0 4rem;
 }
+.fixed{
+  position: fixed;
+}
 .nav {
   display: flex;
   align-items: center;
