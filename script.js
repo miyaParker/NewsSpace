@@ -8,7 +8,7 @@ const app = () => {
     SEARCH_QUERY: "general",
     CATEGORY: "general",
     urlEndpoint() {
-      return `https://newsapi.org/v2/everything?q=${this.SEARCH_QUERY}&page=${this.PAGE}?&apiKey=${this.API_KEY}`;
+      return `https://newsapi.org/v2/everything?q=${this.SEARCH_QUERY}&page=${this.PAGE}&apiKey=${this.API_KEY}`;
     },
       categoryEndpoint(){
         return `https://newsapi.org/v2/top-headlines?country=ng&category=${this.CATEGORY}&apiKey=4fae98f363504cbbaf34a9a7040c8e96`
@@ -177,7 +177,9 @@ const app = () => {
     SETTINGS.PAGE++;
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
     const data = await fetchNewsArticles(URL_ENDPOINT);
-    console.log(URL_ENDPOINT);
+    console.log(URL_ENDPOINT, data.articles);
+     //load only new data
+    loadNewsArticles(data.articles);
     SETTINGS.NEWS_ARTICLES.push(...data.articles);
     updateOfflineData([
       {
@@ -189,8 +191,6 @@ const app = () => {
         value: SETTINGS.PAGE,
       },
     ]);
-    //load only new data
-    loadNewsArticles(data.articles);
     SETTINGS.LOADING = false;
   };
 
