@@ -62,6 +62,12 @@ input[type="search"] {
 }
 .card a {
   color: black;
+  cursor: pointer;
+  text-decoration-color: #BF557B;
+}
+.card a:hover{
+  color: #BF557B;
+  text-decoration-color: black;
 }
 .card-image {
   border-radius: 4px;
