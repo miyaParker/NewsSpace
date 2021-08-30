@@ -46,8 +46,8 @@ input[type="search"] {
   align-self: center;
 }
 .card-container {
-  padding: 0 2rem;
   display: grid;
+  justify-content: center;
   grid-template-columns: repeat(4, 25%);
   grid-gap: 20px;
 }
@@ -230,7 +230,7 @@ input[type="search"] {
     grid-gap: 10px;
   }
   .view {
-    padding: 0rem;
+    padding: 2rem;
   }
 }
  
@@ -240,6 +240,6 @@ input[type="search"] {
     grid-gap: 10px;
   }
   .view {
-    padding: 0;
+    padding: 1rem;
   }
 }
