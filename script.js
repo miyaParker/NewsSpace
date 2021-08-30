@@ -1,6 +1,5 @@
 const app = () => {
   const SETTINGS = {
-    // API_KEY: "4c6292ea668f4393b736943e01845af2",
     API_KEY: "4fae98f363504cbbaf34a9a7040c8e96",
     PAGE: 1,
     NEWS_ARTICLES: [],
@@ -196,6 +195,7 @@ const app = () => {
 
   //load news articles by category
   const newsArticlesByCategory = async (e) => {
+    console.log(e)
     SETTINGS.CATEGORY = e.target.textContent;
     const URL_ENDPOINT = SETTINGS.categoryEndpoint();
     const data = await fetchNewsArticles(URL_ENDPOINT);
@@ -257,7 +257,9 @@ const app = () => {
     query("#load-more").addEventListener("click", loadMoreArticles);
     query("#search").addEventListener("click", queryNewsArticles);
   };
+  
   return init;
+  
 };
 const init = app();
 init();
