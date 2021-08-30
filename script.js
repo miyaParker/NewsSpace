@@ -13,32 +13,32 @@ const app = () => {
 
   //set item to local storage
   const updateOfflineData = (itemList) => {
-    itemList.map(({key,value})=>{
-        localStorage.removeItem(key, JSON.stringify(value));
-        localStorage.setItem(key, JSON.stringify(value));
+    itemList.map(({ key, value }) => {
+      localStorage.removeItem(key);
+      localStorage.setItem(key, JSON.stringify(value));
     });
   };
 
   //get item from localStorage
-  const fetchOfflineData = key => {
-      const data = localStorage.getItem(key);
-      return JSON.parse(data);
-  }
+  const fetchOfflineData = (key) => {
+    const data = localStorage.getItem(key);
+    return JSON.parse(data);
+  };
 
   //initialize application settings
   const init = async () => {
     console.log("Starting NewsSpace...");
+    const URL_ENDPOINT = SETTINGS.urlEndpoint();
     initializeEventListeners();
     // Check if browser support local storage
     if (window.localStorage) {
       const articles = fetchOfflineData("articles");
       const page = fetchOfflineData("page");
-      if(page) SETTINGS.PAGE = page;
+      if (page) SETTINGS.PAGE = page;
       if (articles) {
         loadNewsArticles(articles);
         return;
-      };
-      const URL_ENDPOINT = SETTINGS.urlEndpoint();
+      }
       const data = await fetchNewsArticles(URL_ENDPOINT);
       SETTINGS.NEWS_ARTICLES = data.articles;
       updateOfflineData([
@@ -79,7 +79,7 @@ const app = () => {
       textDiv: createElement("div"),
       titleDiv: createElement("div"),
       shareDiv: createElement("div"),
-      h2: createElement("h2"),
+      h3: createElement("h"),
       urlImg: createElement("img"),
       shareImg: createElement("img"),
       p: createElement("p"),
@@ -101,14 +101,14 @@ const app = () => {
           titleDiv,
           textDiv,
           shareDiv,
-          h2,
+          h3,
           urlImg,
           shareImg,
           p,
           span,
           a,
         } = generateHTMLElements();
-        h2.textContent = title;
+        h3.textContent = title;
         p.textContent = description;
         span.textContent = source.name;
         urlImg.src = urlToImage;
@@ -126,7 +126,7 @@ const app = () => {
         p.classList.add("card-text");
         containerDiv.classList.add("card");
         textDiv.classList.add("flex-col");
-        a.appendChild(h2);
+        a.appendChild(h3);
         textDiv.appendChild(shareDiv);
         textDiv.appendChild(titleDiv);
         titleDiv.appendChild(a);
@@ -152,15 +152,15 @@ const app = () => {
     console.log(URL_ENDPOINT);
     SETTINGS.NEWS_ARTICLES.push(...data.articles);
     updateOfflineData([
-        {
-          key: "articles",
-          value: SETTINGS.NEWS_ARTICLES,
-        },
-        {
-          key: "page",
-          value: SETTINGS.PAGE,
-        },
-      ]);
+      {
+        key: "articles",
+        value: SETTINGS.NEWS_ARTICLES,
+      },
+      {
+        key: "page",
+        value: SETTINGS.PAGE,
+      },
+    ]);
     //load only new data
     loadNewsArticles(data.articles);
     SETTINGS.LOADING = false;
@@ -171,19 +171,53 @@ const app = () => {
     SETTINGS.PAGE = 1;
     SETTINGS.CATEGORY = e.target.value;
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
-    SETTINGS.NEWS_ARTICLES = await fetchNewsArticles(URL_ENDPOINT);
-    updateOfflineData("articles", SETTINGS.NEWS_ARTICLES);
+    const articles = await fetchNewsArticles(URL_ENDPOINT);
+    SETTINGS.NEWS_ARTICLES = articles.data;
+    updateOfflineData([
+      {
+        key: "articles",
+        value: SETTINGS.NEWS_ARTICLES,
+      },
+      {
+        key: "page",
+        value: SETTINGS.PAGE,
+      },
+    ]);
+    const view = query(".card-container");
+    view.innerHTML = "";
     loadNewsArticles(SETTINGS.NEWS_ARTICLES);
   };
 
   //search news articles by user-defined query
   const queryNewsArticles = async (e) => {
+    updateOfflineData([
+      {
+        key: "articles",
+        value: [],
+      },
+      {
+        key: "page",
+        value: 0,
+      },
+    ]);
     SETTINGS.PAGE = 1;
-    SETTINGS.SEARCH_QUERY = e.target.value;
+    SETTINGS.SEARCH_QUERY = e.target.nextElementSibling.value;;
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
-    SETTINGS.NEWS_ARTICLES = await fetchNewsArticles(URL_ENDPOINT);
-    updateOfflineData("articles", SETTINGS.NEWS_ARTICLES);
+    const data = await fetchNewsArticles(URL_ENDPOINT);
+    SETTINGS.NEWS_ARTICLES = data.articles;
+    const view = query(".card-container");
+    view.innerHTML = "";
     loadNewsArticles(SETTINGS.NEWS_ARTICLES);
+    updateOfflineData([
+      {
+        key: "articles",
+        value: SETTINGS.NEWS_ARTICLES,
+      },
+      {
+        key: "page",
+        value: SETTINGS.PAGE,
+      },
+    ]);
   };
 
   const shareNewsLink = async (e) => {
@@ -214,8 +248,8 @@ const app = () => {
   const initializeEventListeners = () => {
     console.log("Initializing event listeners...");
     query("#load-more").addEventListener("click", loadMoreArticles);
-    // query('#list').addEventListener('click', newsArticlesByCategory);
-    // query('#search').addEventListener('click', queryNewsArticles);
+    query(".link").addEventListener("click", newsArticlesByCategory);
+    query("#search").addEventListener("click", queryNewsArticles);
   };
   return init;
 };
