@@ -2,7 +2,7 @@
 body {
   background-color: #ffffff;
   margin: 0;
-  margin-right: 30px;
+  
 }
 * {
   font-family: "Inconsolata";
@@ -21,6 +21,7 @@ span {
 }
 .view {
   padding: 0 4rem;
+  margin-right: 30px;
 }
 .nav {
   display: flex;
@@ -46,6 +47,7 @@ input[type="search"] {
 .search-div{
   align-self: center;
 }
+
 .card-container {
   padding: 0 2rem;
   display: grid;
