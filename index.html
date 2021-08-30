@@ -1,32 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NewsSpace</title>
-    <link rel="stylesheet" href="./styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi:wght@400;500;700&family=Noticia+Text:wght@400;700&family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@200;300;400&display=swap"
-        rel="stylesheet">
-</head>
+      href="https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi:wght@400;500;700&family=Noticia+Text:wght@400;700&family=Open+Sans:wght@300;400;600;700&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@200;300;400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-<body>
-    <main id="main">
-    </main>
+  <body>
+    <!-- Nav Bar -->
+    <nav class="nav">
+      <div class="logo-div">
+        <img class="logo" src="./assets/default-monochrome.svg" />
+      </div>
+      <ul class="flex w-50 nav-features navlinks">
+      </ul>
+      <div class="search-div">
+        <img src="./assets/search.png" alt="search" id="search" />
+        <input
+          type="search"
+          class="search"
+          placeholder="Search News"
+          id="search-bar"
+        />
+      </div>
+    </nav>
+
+    <!-- Banner -->
+    <section class="banner">
+      <h1>One Stop Daily News, Articles and Tips</h1>
+    </section>
+
+    <main id="main"></main>
     <section class="view">
-        <div>
-            <h2 class="h2">Latest News</h2>
-            <div class="card-container">
-            </div>
-        </div>
-        <button class="btn block display-none" id="load-more">Load More</button>
+      <div>
+        <h2 class="h2">Latest News</h2>
+        <div class="card-container"></div>
+      </div>
+      <button class="btn block display-none" id="load-more">Load More</button>
     </section>
     <script src="./script.js"></script>
-
-</body>
-
+  </body>
 </html>

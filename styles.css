@@ -1,41 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap");
 body {
   background-color: #ffffff;
   margin: 0;
   margin-right: 30px;
 }
-
 * {
-  font-family: "Kaisei HarunoUmi";
-  color: #fff;
+  font-family: "Inconsolata";
 }
 
 p,
 h1,
 span {
+  font-weight: 400;
   color: black;
 }
 .h2 {
   text-align: center;
-  color: black;
-  font-size: 2rem;
+  font-size: 28px;
+  padding: 1.5rem 0;
 }
 .view {
   padding: 0 4rem;
 }
-.nav-bar {
+.nav {
   display: flex;
-  font-size: 12px;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px 25px;
-}
-
-.nav-logo {
-  height: 60px;
-}
-
-.nav-logo img {
-  height: 100%;
+  padding: 0 3rem;
+  justify-content: space-between;
+  background-color: #3b1342;
 }
 
 .nav-list {
@@ -43,25 +35,17 @@ span {
   list-style-type: none;
 }
 
-.nav-list li {
-  color: #fff;
-  margin-right: 20px;
-}
-
-.nav-list li {
-  text-decoration: none;
-  color: #fff;
-}
-
 input[type="search"] {
-  width: 200px;
-  height: 30px;
-  border-radius: 4px;
-  padding: 6px;
-  color: #373737c9;
-  cursor: pointer;
+  border-radius: 7px;
+  padding: 1rem 0;
+  padding-left: 2.4rem;
+  color: #3b13427e;
+  font-size: 15px;
+  outline-color: #3b1342;
 }
-
+.search-div{
+  align-self: center;
+}
 .card-container {
   padding: 0 2rem;
   display: grid;
@@ -72,9 +56,11 @@ input[type="search"] {
 .card {
   background-color: white;
   box-shadow: 2px 4px 26px rgba(0, 0, 0, 0.07);
-  border-radius: 4px;
+  border-radius: 1rem;
 }
-
+.card a {
+  color: black;
+}
 .card-image {
   border-radius: 4px;
   overflow: hidden;
@@ -86,22 +72,20 @@ input[type="search"] {
 }
 .card-title {
   font-weight: bolder;
-  font-size: 13px;
+  font-size: 20px;
   text-align: justify;
-  padding: 0 20px;
-  color: #181717;
+  padding: 10px 20px;
 }
 
 .card-text {
   text-align: justify;
   padding: 0 20px;
-  font-size: 13px;
+  font-size: 15px;
 }
-
 .card-span {
   font-size: 15px;
   font-weight: 500;
-  color: #3b13429c;
+  color: #3b13427e;
 }
 
 .share {
@@ -110,19 +94,27 @@ input[type="search"] {
 }
 .btn {
   background: #3b1342;
-  padding: 0.5rem 1rem;
+  padding: 1rem 2.4rem;
   text-align: center;
   border: none;
-  font-size: 15px;
-  border-radius: 4px;
+  font-size: 17px;
+  border-radius: 7px;
   cursor: pointer;
 }
-.btn:hover{
-    transform: scale(1.1);
-    transition: .3s;
+.btn:hover {
+  transform: scale(1.1);
+  transition: 0.3s;
 }
 #load-more {
-  margin: 2rem auto;
+  margin: 2.5rem auto;
+  outline-color: #3b1342;
+  color: #ffffff;
+}
+.w-50 {
+  width: 50%;
+}
+.w-70 {
+  width: 70%;
 }
 .w-100 {
   width: 100%;
@@ -145,20 +137,68 @@ input[type="search"] {
 }
 
 .social-media-layout {
-    background-color: #fff;
-    box-shadow: 2px 4px 26px rgba(0, 0, 0, 0.07);
-    width: 100px;
-    height: 270px;
-    list-style-type: none;
-    border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 2px 4px 26px rgba(0, 0, 0, 0.07);
+  width: 100px;
+  height: 270px;
+  list-style-type: none;
+  border-radius: 4px;
 }
 
 .social-media-layout li {
-    align-items: center;
-    align-content: center;
+  align-items: center;
+  align-content: center;
 }
 
 .social-media-layout li a {
-    text-decoration: none;
-    color: #373737c9;
+  text-decoration: none;
+  color: #373737c9;
+}
+.nav-features {
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none;
+  cursor: pointer;
+  padding: 1rem 2rem;
+  color: white;
+}
+
+.logo-div {
+  width: 10rem;
+}
+.logo {
+  width: 100%;
+  object-fit: cover;
+}
+
+.search {
+  background-color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem 1rem;
+}
+
+.banner {
+  background-image: url("./assets/banner.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 85vh;
+}
+
+.banner h1 {
+  width: 50%;
+  font-weight: 700;
+  color: seashell;
+  text-align: center;
+  margin: auto;
+  font-size: 55px;
+  padding: 50vh 0;
+}
+#search {
+  cursor: pointer;
+  position: relative;
+  top: .5rem;
+  left: 2.5rem;
+  width: 25px;
 }
