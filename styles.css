@@ -38,13 +38,8 @@ span {
   list-style-type: none;
 }
 
-<<<<<<< HEAD
-.nav a:hover {
-  color: #BF557B;
-=======
 .nav-list a:hover {
   color: #bf557b;
->>>>>>> a46783c55b3de9d19ec9708fb297d2bd3c4b29c4
   font-size: medium;
   background-color: #e88cfa;
 }
