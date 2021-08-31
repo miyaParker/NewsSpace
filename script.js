@@ -1,6 +1,6 @@
 const app = () => {
   const SETTINGS = {
-    API_KEY: "4fae98f363504cbbaf34a9a7040c8e96",
+    API_KEY: "b6b59c3cb37e46c8956ba2716aecca14",
     PAGE: 1,
     NEWS_ARTICLES: [],
     LOADING: true,
@@ -13,7 +13,7 @@ const app = () => {
       return `https://newsapi.org/v2/top-headlines?country=ng&category=${this.CATEGORY}&page=${this.PAGE}&apiKey=4fae98f363504cbbaf34a9a7040c8e96`;
     },
   };
- 
+
   //set item to local storage
   const updateOfflineData = (itemList) => {
     itemList.map(({ key, value }) => {
@@ -58,14 +58,8 @@ const app = () => {
     //Check if browser support local storage
     const articles = fetchOfflineData("articles");
     const page = fetchOfflineData("page");
-    console.log(page);
-    console.log(typeof page)
     const searchQuery = fetchOfflineData("query");
-    if (
-      page &&
-      searchQuery &&
-      articles.length
-    ) {
+    if (page && searchQuery && articles.length) {
       SETTINGS.PAGE = page;
       SETTINGS.SEARCH_QUERY = searchQuery;
       loadNewsArticles(articles);
@@ -87,8 +81,8 @@ const app = () => {
         },
       ]);
       loadNewsArticles(SETTINGS.NEWS_ARTICLES);
-      console.log(SETTINGS.PAGE)
     }
+    console.log("init");
   };
 
   //creates an element and returns it
@@ -96,9 +90,6 @@ const app = () => {
 
   //query element by id, class, or tag and returns it
   const query = (element) => document.querySelector(element);
-
-  //query all elements with class or tag and returns it
-  const queryAll = (element) => document.querySelectorAll(element);
 
   //fetch news articles from the API
   const fetchNewsArticles = async (url) => {
@@ -128,9 +119,7 @@ const app = () => {
   const loadNewsArticles = (articles) => {
     const view = query(".card-container");
     const button = query("#load-more");
-    articles
-      .filter((article) => article.urlToImage !== null)
-      .map(({ title, description, url, urlToImage, source, publishedAt }) => {
+    articles.map(({ title, description, url, urlToImage, source, publishedAt }) => {
         const {
           containerDiv,
           imageDiv,
@@ -173,14 +162,14 @@ const app = () => {
         view.appendChild(containerDiv);
       });
     SETTINGS.LOADING = false;
-    button.classList.add("display-block");
+    button.classList.add("block");
   };
 
   //load more news articles
   const loadMoreArticles = async () => {
     console.log("Loading more articles...");
     SETTINGS.LOADING = true;
-    SETTINGS.PAGE +=1;
+    SETTINGS.PAGE += 1;
     console.log(SETTINGS.PAGE);
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
     const data = await fetchNewsArticles(URL_ENDPOINT);
@@ -203,7 +192,7 @@ const app = () => {
 
   //load news articles by category
   const newsArticlesByCategory = async (e) => {
-    SETTINGS.PAGE=1;
+    SETTINGS.PAGE = 1;
     SETTINGS.CATEGORY = e.target.textContent;
     const URL_ENDPOINT = SETTINGS.categoryEndpoint();
     const data = await fetchNewsArticles(URL_ENDPOINT);
