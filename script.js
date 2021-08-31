@@ -109,8 +109,6 @@ const app = () => {
       console.log(articles);
       return articles;
     } catch (error) {
-      console.log(error);
-      console.log(error.message);
       if (
         error.message.includes("NetworkError") ||
         error.message.includes("Failed to fetch")
