@@ -10,7 +10,7 @@ body {
 p,
 h1,
 span {
-  font-weight: 400;
+  font-weight: 900;
   color: black;
 }
 .h2 {
@@ -82,9 +82,9 @@ input[type="search"] {
   border-radius: 10px;
   border-color: black;
 }
-li:hover{
+li:hover {
   transition: 0.1s;
-  color: #BF557B;
+  color: #bf557b;
 }
 .card:active {
   background-color: rgb(238, 226, 226);
@@ -165,7 +165,7 @@ li:hover{
 .block {
   display: block;
 }
-.hidden{
+.hidden {
   display: none;
 }
 .flex {
