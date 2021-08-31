@@ -33,7 +33,6 @@ const app = () => {
   const createNavLinks = () => {
     const navlinks = [
       "Business",
-      "Politics",
       "Entertainment",
       "Health",
       "Science",
