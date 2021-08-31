@@ -39,7 +39,7 @@ span {
   list-style-type: none;
 }
 
-.nav-list a:hover {
+.nav a:hover {
   color: #BF557B;
   font-size: medium;
   background-color: #e88cfa;
