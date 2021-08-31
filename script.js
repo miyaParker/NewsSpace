@@ -55,12 +55,14 @@ const app = () => {
     createNavLinks();
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
     initializeEventListeners();
+
     //Check if browser support local storage
     const articles = fetchOfflineData("articles");
     const page = fetchOfflineData("page");
     console.log(page);
     console.log(typeof page)
     const searchQuery = fetchOfflineData("query");
+
     if (
       page &&
       searchQuery &&
@@ -185,6 +187,7 @@ const app = () => {
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
     const data = await fetchNewsArticles(URL_ENDPOINT);
     console.log(URL_ENDPOINT, data.articles);
+
     //load only new data
     loadNewsArticles(data.articles);
     SETTINGS.NEWS_ARTICLES.push(...data.articles);
@@ -239,6 +242,7 @@ const app = () => {
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
     const data = await fetchNewsArticles(URL_ENDPOINT);
     SETTINGS.NEWS_ARTICLES = data.articles;
+
     //update local storage
     loadNewsArticles(SETTINGS.NEWS_ARTICLES);
     updateOfflineData([
