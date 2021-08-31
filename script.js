@@ -1,4 +1,13 @@
 const app = () => {
+  //creates an element and returns it
+  const createElement = (element) => document.createElement(element);
+
+  //query element by id, class, or tag and returns it
+  const query = (element) => document.querySelector(element);
+  const button = query("#load-more");
+  const loader = query("#loader");
+  const view = query(".card-container");
+  const errorMessage = query("#error");
   const SETTINGS = {
     API_KEY: "b6b59c3cb37e46c8956ba2716aecca14",
     PAGE: 1,
@@ -82,20 +91,35 @@ const app = () => {
       ]);
       loadNewsArticles(SETTINGS.NEWS_ARTICLES);
     }
-    console.log("init");
+    SETTINGS.LOADING = false;
   };
-
-  //creates an element and returns it
-  const createElement = (element) => document.createElement(element);
-
-  //query element by id, class, or tag and returns it
-  const query = (element) => document.querySelector(element);
 
   //fetch news articles from the API
   const fetchNewsArticles = async (url) => {
-    const response = await fetch(url);
-    const articles = await response.json();
-    return articles;
+    errorMessage.classList.remove("block");
+    errorMessage.classList.add("hidden");
+    button.classList.remove("block");
+    button.classList.add("hidden");
+    loader.classList.add("block");
+    loader.classList.remove("hidden");
+    try {
+      const response = await fetch(url);
+      const articles = await response.json();
+      console.log(articles);
+      return articles;
+    } catch (error) {
+      console.log(error);
+      console.log(error.message);
+      if (
+        error.message.includes("NetworkError") ||
+        error.message.includes("Failed to fetch")
+      ) {
+        errorMessage.classList.remove("hidden");
+        errorMessage.classList.add("block");
+        loader.classList.remove("block");
+        loader.classList.add("hidden");
+      }
+    }
   };
 
   //generates 'div','h1','img','p','a' elements
@@ -117,9 +141,8 @@ const app = () => {
 
   //display articles on the page
   const loadNewsArticles = (articles) => {
-    const view = query(".card-container");
-    const button = query("#load-more");
-    articles.map(({ title, description, url, urlToImage, source, publishedAt }) => {
+    articles.map(
+      ({ title, description, url, urlToImage, source, publishedAt }) => {
         const {
           containerDiv,
           imageDiv,
@@ -160,9 +183,13 @@ const app = () => {
         containerDiv.appendChild(textDiv);
         containerDiv.appendChild(p);
         view.appendChild(containerDiv);
-      });
+      }
+    );
     SETTINGS.LOADING = false;
+    button.classList.remove("hidden");
     button.classList.add("block");
+    loader.classList.remove("block");
+    loader.classList.add("hidden");
   };
 
   //load more news articles

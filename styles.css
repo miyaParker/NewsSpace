@@ -248,8 +248,27 @@ li:hover {
   left: 2.5rem;
   width: 25px;
 }
-/* laptops and desktops */
+#loader{
+  margin: 3rem auto;
+  transform: rotate(360deg);
+  animation: spin 1s linear infinite;
+}
+#error{
+  text-align: center;
+  margin: 3rem auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.center{
+  margin: 0 auto;
+}
+
+
 /* media queries */
+/* laptops and desktops */
 @media all and (min-width: 1024px) and (max-width: 1280px) {
   .card-container {
     grid-template-columns: repeat(4, 25%);

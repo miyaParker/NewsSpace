@@ -45,9 +45,17 @@
     <section class="view">
       <div>
         <h2 class="h2">Latest News</h2>
-        <div class="card-container"></div>
+        <div class="card-container">
+        </div>
+        <p id="error" class="hidden center">There is a problem with your network connectivity. Check your wifi.</p>
       </div>
-      <button class="btn block display-none" id="load-more">Load More</button>
+      <div class="w-100">
+        <img src="./assets/loader.png" class="center" alt="" id="loader" width="40">
+      </div>
+      <div class="w-100">
+        <button class="btn hidden center block" id="load-more">Load More</button>
+      </div>
+      
     </section>
     <script src="./script.js"></script>
   </body>
