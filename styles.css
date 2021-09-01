@@ -257,7 +257,7 @@ li:hover {
   text-align: center;
   margin: 3rem auto;
 }
-#close {
+#close{
   width: 30px;
 }
 @keyframes spin {
@@ -386,19 +386,20 @@ li:hover {
   .nav ul {
     display: none;
     flex-direction: column;
+
   }
   .search-div {
     display: none;
   }
-  #search-div {
-    padding-left: 0.4rem;
+  #search-div{
+    padding-left: .4rem;
   }
-  #li-search-icon {
+  #li-search-icon{
     cursor: pointer;
-    position: relative;
-    top: 2.5rem;
-    left: .5rem;
-    width: 25px;
+  position: relative;
+  top: 0.5rem;
+  left: 2.5rem;
+  width: 25px;
   }
   .logo-div {
     width: 7rem;
