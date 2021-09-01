@@ -7,7 +7,11 @@ const app = () => {
   const button = query("#load-more");
   const loader = query("#loader");
   const view = query(".card-container");
+  const navUl = query(".nav-features");
+  const nav = query(".nav");
   const errorMessage = query("#error");
+  const search = query("#search");
+  const menu = query(".toggle");
   const SETTINGS = {
     API_KEY: "b6b59c3cb37e46c8956ba2716aecca14",
     PAGE: 1,
@@ -42,7 +46,6 @@ const app = () => {
   const createNavLinks = () => {
     const navlinks = [
       "Business",
-      "Politics",
       "Entertainment",
       "Health",
       "Science",
@@ -274,11 +277,19 @@ const app = () => {
     ]);
   };
 
+  const displayMenu=(e)=> {
+    console.log(e.target)
+    nav.style.display = "block"
+    nav.style.textAlign = "left";
+    navUl.style.display = "block";
+  };
+
   //initialize event listeners
   const initializeEventListeners = () => {
     console.log("Initializing event listeners...");
-    query("#load-more").addEventListener("click", loadMoreArticles);
-    query("#search").addEventListener("click", queryNewsArticles);
+    button.addEventListener("click", loadMoreArticles);
+    search.addEventListener("click", queryNewsArticles);
+    menu.addEventListener("click", displayMenu)
   };
 
   return init;
