@@ -10,7 +10,7 @@ body {
 p,
 h1,
 span {
-  font-weight: 400;
+  font-weight: 900;
   color: black;
 }
 .h2 {
@@ -28,9 +28,11 @@ span {
 .nav {
   display: flex;
   align-items: center;
-  padding: 0 3rem;
+  padding: 1rem 3rem;
   justify-content: space-between;
   background-color: #3b1342;
+  box-shadow: 3px 11px 33px rgba(0, 2, 0, 0.678);
+  border-color: #fff;
 }
 
 .nav-list {
@@ -165,11 +167,12 @@ li:hover {
 .block {
   display: block;
 }
+.hidden {
+  display: none;
+}
 .flex {
   display: flex;
   align-items: center;
-  padding: 0 20px;
-  padding-top: 10px;
   justify-content: space-between;
 }
 .flex-col {
@@ -198,11 +201,11 @@ li:hover {
   color: #373737c9;
 }
 .nav-features {
+  display: flex;
   justify-content: space-between;
   align-items: center;
   list-style-type: none;
   cursor: pointer;
-  padding: 1rem 2rem;
   color: white;
 }
 
@@ -218,7 +221,7 @@ li:hover {
   background-color: white;
   border: none;
   border-radius: 0.5rem;
-  padding: 1rem 1rem;
+  padding: 1rem 0rem;
 }
 
 .banner {
@@ -247,8 +250,34 @@ li:hover {
   left: 2.5rem;
   width: 25px;
 }
+#loader {
+  margin: 3rem auto;
+  transform: rotate(360deg);
+  animation: spin 1s linear infinite;
+}
+#error {
+  text-align: center;
+  margin: 3rem auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.center {
+  margin: 0 auto;
+}
+.toggle {
+  cursor: pointer;
+  display: none;
+}
 
 /* media queries */
+/* laptops and desktops */
 @media all and (min-width: 1024px) and (max-width: 1280px) {
   .card-container {
     grid-template-columns: repeat(4, 25%);
@@ -259,7 +288,7 @@ li:hover {
     padding: 0 4rem;
   }
 }
-
+/* small latops */
 @media all and (min-width: 768px) and (max-width: 1024px) {
   .card-container {
     grid-template-columns: repeat(3, 33%);
@@ -268,9 +297,34 @@ li:hover {
   .view {
     padding: 0 2rem;
   }
+  .toggle {
+    display: block;
+    width: 25px;
+  }
+  #toggle-button {
+    width: 100%;
+    overflow: hidden;
+  }
+  .nav {
+    padding: 1rem 2rem;
+  }
+  .nav ul {
+    display: none;
+    flex-direction: column;
+  }
+  .search-div {
+    margin-left: 17rem;
+  }
+  input[type="search"] {
+    padding: 0.8rem 0;
+    padding-left: 2.4rem;
+  }
+  .logo-div {
+    width: 7.5rem;
+  }
 }
-
-@media all and (min-width: 480px) and (max-width: 768px) {
+/* small tablets */
+@media all and (min-width: 485px) and (max-width: 768px) {
   .card-container {
     grid-template-columns: repeat(2, 50%);
     grid-gap: 10px;
@@ -287,9 +341,33 @@ li:hover {
     width: 90%;
     font-size: 30px;
   }
+  .toggle {
+    display: block;
+    width: 25px;
+  }
+  #toggle-button {
+    width: 100%;
+    overflow: hidden;
+  }
+  .nav {
+    padding: 1rem 2rem;
+  }
+  .nav ul {
+    display: none;
+  }
+  .search-div {
+    margin-left: 0rem;
+  }
+  input[type="search"] {
+    padding: 0.8rem 0;
+    padding-left: 2rem;
+  }
+  .logo-div {
+    width: 7rem;
+  }
 }
-
-@media all and (max-width: 480px) {
+/* mobile devices */
+@media all and (max-width: 485px) {
   .card-container {
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 10px;
@@ -305,5 +383,33 @@ li:hover {
   .banner h1 {
     width: 90%;
     font-size: 30px;
+  }
+  .toggle {
+    display: block;
+    width: 20px;
+  }
+  #toggle-button {
+    width: 100%;
+    overflow: hidden;
+  }
+  .nav {
+    padding: 1rem 1rem;
+  }
+  .nav ul {
+    display: none;
+    flex-direction: column;
+  }
+  .search-div {
+    display: none;
+  }
+  #search-div {
+    padding-left: 0.4rem;
+    margin-top: -5rem;
+  }
+  .logo-div {
+    width: 7rem;
+  }
+  #li-search {
+    display: block;
   }
 }

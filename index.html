@@ -23,7 +23,16 @@
             ><img class="logo" src="./assets/default-monochrome.svg"
           /></a>
         </div>
-        <ul class="flex w-50 nav-features navlinks"></ul>
+        <ul class="flex w-50 nav-features navlinks">
+          <div class="search-div hidden" id="li-search">
+            <img src="./assets/search.png" alt="search" id="#li-search-icon" />
+            <input
+              type="search"
+              class="search"
+              placeholder="Search News"
+              id="search-bar"
+            />
+          </div>        </ul>
         <div class="search-div">
           <img src="./assets/search.png" alt="search" id="search" />
           <input
@@ -33,6 +42,10 @@
             id="search-bar"
           />
         </div>
+        <div class="toggle">
+          <img src="./assets//menu.png" alt="menu button" id="toggle-button">
+        </div>
+       
       </nav>
     </div>
     <!-- Banner -->
@@ -40,13 +53,31 @@
     <section class="banner">
       <h1>One Stop Daily News, Articles and Tips</h1>
     </section>
+
     <main id="main"></main>
+
     <section class="view">
       <div>
         <h2 class="h2">Latest News</h2>
         <div class="card-container"></div>
+        <p id="error" class="hidden center">
+          There is a problem with your network connectivity. Check your wifi.
+        </p>
       </div>
-      <button class="btn block display-none" id="load-more">Load More</button>
+      <div class="w-100">
+        <img
+          src="./assets/loader.png"
+          class="center"
+          alt=""
+          id="loader"
+          width="40"
+        />
+      </div>
+      <div class="w-100">
+        <button class="btn hidden center block" id="load-more">
+          Load More
+        </button>
+      </div>
     </section>
     <script src="./script.js"></script> 
   </body>

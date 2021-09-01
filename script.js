@@ -1,6 +1,19 @@
 const app = () => {
+  //creates an element and returns it
+  const createElement = (element) => document.createElement(element);
+
+  //query element by id, class, or tag and returns it
+  const query = (element) => document.querySelector(element);
+  const button = query("#load-more");
+  const loader = query("#loader");
+  const view = query(".card-container");
+  const navUl = query(".nav-features");
+  const nav = query(".nav");
+  const errorMessage = query("#error");
+  const search = query("#search");
+  const menu = query(".toggle");
   const SETTINGS = {
-    API_KEY: "4fae98f363504cbbaf34a9a7040c8e96",
+    API_KEY: "b6b59c3cb37e46c8956ba2716aecca14",
     PAGE: 1,
     NEWS_ARTICLES: [],
     LOADING: true,
@@ -13,7 +26,7 @@ const app = () => {
       return `https://newsapi.org/v2/top-headlines?country=ng&category=${this.CATEGORY}&page=${this.PAGE}&apiKey=4fae98f363504cbbaf34a9a7040c8e96`;
     },
   };
- 
+
   //set item to local storage
   const updateOfflineData = (itemList) => {
     itemList.map(({ key, value }) => {
@@ -54,17 +67,12 @@ const app = () => {
     createNavLinks();
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
     initializeEventListeners();
+
     //Check if browser support local storage
     const articles = fetchOfflineData("articles");
     const page = fetchOfflineData("page");
-    console.log(page);
-    console.log(typeof page)
     const searchQuery = fetchOfflineData("query");
-    if (
-      page &&
-      searchQuery &&
-      articles.length
-    ) {
+    if (page && searchQuery && articles.length) {
       SETTINGS.PAGE = page;
       SETTINGS.SEARCH_QUERY = searchQuery;
       loadNewsArticles(articles);
@@ -86,24 +94,34 @@ const app = () => {
         },
       ]);
       loadNewsArticles(SETTINGS.NEWS_ARTICLES);
-      console.log(SETTINGS.PAGE)
     }
+    SETTINGS.LOADING = false;
   };
-
-  //creates an element and returns it
-  const createElement = (element) => document.createElement(element);
-
-  //query element by id, class, or tag and returns it
-  const query = (element) => document.querySelector(element);
-
-  //query all elements with class or tag and returns it
-  const queryAll = (element) => document.querySelectorAll(element);
 
   //fetch news articles from the API
   const fetchNewsArticles = async (url) => {
-    const response = await fetch(url);
-    const articles = await response.json();
-    return articles;
+    errorMessage.classList.remove("block");
+    errorMessage.classList.add("hidden");
+    button.classList.remove("block");
+    button.classList.add("hidden");
+    loader.classList.add("block");
+    loader.classList.remove("hidden");
+    try {
+      const response = await fetch(url);
+      const articles = await response.json();
+      console.log(articles);
+      return articles;
+    } catch (error) {
+      if (
+        error.message.includes("NetworkError") ||
+        error.message.includes("Failed to fetch")
+      ) {
+        errorMessage.classList.remove("hidden");
+        errorMessage.classList.add("block");
+        loader.classList.remove("block");
+        loader.classList.add("hidden");
+      }
+    }
   };
 
   //generates 'div','h1','img','p','a' elements
@@ -125,11 +143,8 @@ const app = () => {
 
   //display articles on the page
   const loadNewsArticles = (articles) => {
-    const view = query(".card-container");
-    const button = query("#load-more");
-    articles
-      .filter((article) => article.urlToImage !== null)
-      .map(({ title, description, url, urlToImage, source, publishedAt }) => {
+    articles.map(
+      ({ title, description, url, urlToImage, source, publishedAt }) => {
         const {
           containerDiv,
           imageDiv,
@@ -170,20 +185,25 @@ const app = () => {
         containerDiv.appendChild(textDiv);
         containerDiv.appendChild(p);
         view.appendChild(containerDiv);
-      });
+      }
+    );
     SETTINGS.LOADING = false;
-    button.classList.add("display-block");
+    button.classList.remove("hidden");
+    button.classList.add("block");
+    loader.classList.remove("block");
+    loader.classList.add("hidden");
   };
 
   //load more news articles
   const loadMoreArticles = async () => {
     console.log("Loading more articles...");
     SETTINGS.LOADING = true;
-    SETTINGS.PAGE +=1;
+    SETTINGS.PAGE += 1;
     console.log(SETTINGS.PAGE);
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
     const data = await fetchNewsArticles(URL_ENDPOINT);
     console.log(URL_ENDPOINT, data.articles);
+
     //load only new data
     loadNewsArticles(data.articles);
     SETTINGS.NEWS_ARTICLES.push(...data.articles);
@@ -202,7 +222,7 @@ const app = () => {
 
   //load news articles by category
   const newsArticlesByCategory = async (e) => {
-    SETTINGS.PAGE=1;
+    SETTINGS.PAGE = 1;
     SETTINGS.CATEGORY = e.target.textContent;
     const URL_ENDPOINT = SETTINGS.categoryEndpoint();
     const data = await fetchNewsArticles(URL_ENDPOINT);
@@ -238,6 +258,7 @@ const app = () => {
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
     const data = await fetchNewsArticles(URL_ENDPOINT);
     SETTINGS.NEWS_ARTICLES = data.articles;
+
     //update local storage
     loadNewsArticles(SETTINGS.NEWS_ARTICLES);
     updateOfflineData([
@@ -256,11 +277,19 @@ const app = () => {
     ]);
   };
 
+  const displayMenu=(e)=> {
+    console.log(e.target)
+    nav.style.display = "block"
+    nav.style.textAlign = "left";
+    navUl.style.display = "block";
+  };
+
   //initialize event listeners
   const initializeEventListeners = () => {
     console.log("Initializing event listeners...");
-    query("#load-more").addEventListener("click", loadMoreArticles);
-    query("#search").addEventListener("click", queryNewsArticles);
+    button.addEventListener("click", loadMoreArticles);
+    search.addEventListener("click", queryNewsArticles);
+    menu.addEventListener("click", displayMenu)
   };
 
   return init;
