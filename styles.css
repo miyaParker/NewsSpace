@@ -257,7 +257,9 @@ li:hover {
   text-align: center;
   margin: 3rem auto;
 }
-
+#close {
+  width: 30px;
+}
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -273,7 +275,10 @@ li:hover {
   cursor: pointer;
   display: none;
 }
-
+#close {
+  cursor: pointer;
+  display: none;
+}
 /* media queries */
 /* laptops and desktops */
 @media all and (min-width: 1024px) and (max-width: 1280px) {
@@ -309,9 +314,12 @@ li:hover {
   .nav ul {
     display: none;
     flex-direction: column;
+    justify-content: start;
+    align-items: start;
   }
   .search-div {
-    margin-left: 17rem;
+    /* margin-left: 17rem; */
+    width: auto;
   }
   input[type="search"] {
     padding: 0.8rem 0;
@@ -378,14 +386,19 @@ li:hover {
   .nav ul {
     display: none;
     flex-direction: column;
-
   }
   .search-div {
     display: none;
   }
-  #search-div{
-    padding-left: .4rem;
-    margin-top: -5rem;
+  #search-div {
+    padding-left: 0.4rem;
+  }
+  #li-search-icon {
+    cursor: pointer;
+    position: relative;
+    top: 2.5rem;
+    left: .5rem;
+    width: 25px;
   }
   .logo-div {
     width: 7rem;

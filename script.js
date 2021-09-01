@@ -12,6 +12,7 @@ const app = () => {
   const errorMessage = query("#error");
   const search = query("#search");
   const menu = query(".toggle");
+  const close = query("#close");
   const SETTINGS = {
     API_KEY: "b6b59c3cb37e46c8956ba2716aecca14",
     PAGE: 1,
@@ -278,18 +279,26 @@ const app = () => {
   };
 
   const displayMenu=(e)=> {
-    console.log(e.target)
     nav.style.display = "block"
     nav.style.textAlign = "left";
     navUl.style.display = "block";
+    menu.style.display = "none";
+    close.style.display = "block";
   };
-
+  const closeMenu=(e)=> {
+    nav.style.display = "flex"
+    // nav.style.textAlign = "left";
+    navUl.style.display = "none";
+    menu.style.display = "block";
+    close.style.display = "none";
+  };
   //initialize event listeners
   const initializeEventListeners = () => {
     console.log("Initializing event listeners...");
     button.addEventListener("click", loadMoreArticles);
     search.addEventListener("click", queryNewsArticles);
-    menu.addEventListener("click", displayMenu)
+    menu.addEventListener("click", displayMenu);
+    close.addEventListener("click", closeMenu);
   };
 
   return init;
