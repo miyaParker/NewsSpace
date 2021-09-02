@@ -119,7 +119,7 @@ const app = () => {
       if(data.status==="error" && data.message.includes("You have requested too many results.")){
         errorMessage.classList.remove("hidden");
         errorMessage.classList.add("block");
-        errorMessage.textContent = "You’ve reached the end of the list";
+        errorMessage.textContent = "You have reached the end of the list.";
         loader.classList.remove("block");
         loader.classList.add("hidden");
       }
