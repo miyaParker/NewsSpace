@@ -65,6 +65,8 @@ const app = () => {
   //initialize application settings
   const init = async () => {
     console.log("Starting NewsSpace...");
+    errorMessage.classList.remove("block");
+    errorMessage.classList.add("hidden");
     createNavLinks();
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
     initializeEventListeners();
@@ -78,8 +80,10 @@ const app = () => {
       SETTINGS.SEARCH_QUERY = searchQuery;
       loadNewsArticles(articles);
     } else {
-      const data = await fetchNewsArticles(URL_ENDPOINT);
-      SETTINGS.NEWS_ARTICLES = data.articles;
+      const articles = await fetchNewsArticles(URL_ENDPOINT);
+      if(typeof articles === "undefined") return;
+      SETTINGS.NEWS_ARTICLES = articles;
+      console.log(SETTINGS.NEWS_ARTICLES)
       updateOfflineData([
         {
           key: "articles",
@@ -109,9 +113,17 @@ const app = () => {
     loader.classList.remove("hidden");
     try {
       const response = await fetch(url);
-      const articles = await response.json();
-      console.log(articles);
-      return articles;
+      const data = await response.json();
+      console.log(data)
+      if(data.status ==="ok") return data.articles;
+      if(data.status==="error" && data.message.includes("You have requested too many results.")){
+        errorMessage.classList.remove("hidden");
+        errorMessage.classList.add("block");
+        errorMessage.textContent = "You’ve reached the end of the list";
+        loader.classList.remove("block");
+        loader.classList.add("hidden");
+      }
+      
     } catch (error) {
       if (
         error.message.includes("NetworkError") ||
@@ -123,6 +135,7 @@ const app = () => {
         loader.classList.add("hidden");
       }
     }
+    return;
   };
 
   //generates 'div','h1','img','p','a' elements
@@ -133,7 +146,7 @@ const app = () => {
       textDiv: createElement("div"),
       titleDiv: createElement("div"),
       shareDiv: createElement("div"),
-      h3: createElement("h"),
+      h3: createElement("h2"),
       urlImg: createElement("img"),
       p: createElement("p"),
       a: createElement("a"),
@@ -176,15 +189,12 @@ const app = () => {
         containerDiv.classList.add("card");
         textDiv.classList.add("flex-col");
         a.appendChild(h3);
-        textDiv.appendChild(shareDiv);
+        textDiv.appendChild(sourceSpan);
         textDiv.appendChild(titleDiv);
         titleDiv.appendChild(a);
         imageDiv.appendChild(urlImg);
-        shareDiv.appendChild(sourceSpan);
-        shareDiv.appendChild(dateSpan);
         containerDiv.appendChild(imageDiv);
         containerDiv.appendChild(textDiv);
-        containerDiv.appendChild(p);
         view.appendChild(containerDiv);
       }
     );
@@ -202,12 +212,11 @@ const app = () => {
     SETTINGS.PAGE += 1;
     console.log(SETTINGS.PAGE);
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
-    const data = await fetchNewsArticles(URL_ENDPOINT);
-    console.log(URL_ENDPOINT, data.articles);
+    const articles =  await fetchNewsArticles(URL_ENDPOINT);
 
     //load only new data
-    loadNewsArticles(data.articles);
-    SETTINGS.NEWS_ARTICLES.push(...data.articles);
+    loadNewsArticles(articles);
+    SETTINGS.NEWS_ARTICLES.push(...articles);
     updateOfflineData([
       {
         key: "articles",
@@ -219,6 +228,8 @@ const app = () => {
       },
     ]);
     SETTINGS.LOADING = false;
+    loader.classList.remove("block");
+    loader.classList.add("hidden");
   };
 
   //load news articles by category
@@ -226,10 +237,11 @@ const app = () => {
     SETTINGS.PAGE = 1;
     SETTINGS.CATEGORY = e.target.textContent;
     const URL_ENDPOINT = SETTINGS.categoryEndpoint();
-    const data = await fetchNewsArticles(URL_ENDPOINT);
+    const articles = await fetchNewsArticles(URL_ENDPOINT);
     const view = query(".card-container");
     view.innerHTML = "";
-    SETTINGS.NEWS_ARTICLES = data.articles;
+    SETTINGS.NEWS_ARTICLES = articles;
+    console.log(articles)
     loadNewsArticles(SETTINGS.NEWS_ARTICLES);
     SETTINGS.CATEGORY = "general";
     updateOfflineData([
@@ -253,12 +265,12 @@ const app = () => {
     SETTINGS.PAGE = 1;
     const KEYWORD = e.target.nextElementSibling.value;
     SETTINGS.SEARCH_QUERY = KEYWORD.length ? KEYWORD : "general";
-    query("#search-bar").value = "";
+    e.target.nextElementSibling.value= "";
     const view = query(".card-container");
     view.innerHTML = "";
     const URL_ENDPOINT = SETTINGS.urlEndpoint();
-    const data = await fetchNewsArticles(URL_ENDPOINT);
-    SETTINGS.NEWS_ARTICLES = data.articles;
+    const articles = await fetchNewsArticles(URL_ENDPOINT);
+    SETTINGS.NEWS_ARTICLES = articles;
 
     //update local storage
     loadNewsArticles(SETTINGS.NEWS_ARTICLES);
@@ -287,7 +299,6 @@ const app = () => {
   };
   const closeMenu=(e)=> {
     nav.style.display = "flex"
-    // nav.style.textAlign = "left";
     navUl.style.display = "none";
     menu.style.display = "block";
     close.style.display = "none";

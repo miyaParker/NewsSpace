@@ -1,26 +1,29 @@
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap");
+@font-face {
+  font-family: 'Agane';
+  src: url('./Assets/fonts/Aganè\ 45\ \(light\).ttf');
+}
 body {
-  background-color: #ffffff;
+ background-color: #fafafb;
   margin: 0;
+  padding: 0;
 }
 * {
-  font-family: "Inconsolata";
+  font-family: "Agane";
 }
 
-p,
 h1,
 span {
-  font-weight: 900;
+  font-weight: 400;
   color: black;
 }
 .h2 {
   text-align: center;
-  font-size: 28px;
+  font-size: 30px;
   padding: 1.5rem 0;
 }
 .view {
   padding: 0 4rem;
-  margin-right: 30px;
+  margin-right: 0 auto;
 }
 .fixed {
   position: fixed;
@@ -68,8 +71,8 @@ input[type="search"] {
 .card-container {
   display: grid;
   justify-content: center;
-  grid-template-columns: repeat(4, 25%);
-  grid-gap: 20px;
+  grid-template-columns: repeat(3, 30%);
+  grid-gap: 30px;
 }
 
 .card {
@@ -116,18 +119,21 @@ li:hover {
   transition: 1s;
 }
 .card-title {
-  font-weight: bolder;
-  font-size: 20px;
+  color: #0d0c22;
+  font-weight: 300;
+  font-size: 13px;
   text-align: justify;
   padding: 10px 20px;
+  margin-bottom: 30px
 }
 
 .card-text {
   text-align: justify;
-  padding: 0 20px;
+  padding: 0 15px;
   font-size: 15px;
 }
 .card-span {
+  padding: 10px 20px;
   font-size: 15px;
   font-weight: 500;
   color: #3b13427e;
@@ -280,12 +286,25 @@ li:hover {
   cursor: pointer;
   display: none;
 }
+
+footer{
+  margin-top: 4rem;
+  margin: 0 4rem;
+  align-items: center;
+  
+}
+.footer{
+  color: #0d0c22;
+  padding: 2rem 0;
+  border-top: 1px solid #e7e7e9 ;
+}
+
 /* media queries */
 /* laptops and desktops */
 @media all and (min-width: 1024px) and (max-width: 1280px) {
   .card-container {
-    grid-template-columns: repeat(4, 25%);
-    grid-gap: 20px;
+    grid-template-columns: repeat(3, 30%);
+  grid-gap: 30px;
     padding: 0 2rem;
   }
   .view {
@@ -414,4 +433,5 @@ li:hover {
 
 .banner h1 {
   width: 80%;
+}
 }
